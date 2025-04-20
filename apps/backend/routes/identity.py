@@ -1,7 +1,16 @@
 from fastapi import APIRouter
+from pydantic import BaseModel
 
 router = APIRouter()
 
-@router.get("/")
-async def get_identity():
-    return {"message": "Identity data"}
+class IdentityRequestModel(BaseModel):
+    param1: str
+    param2: int
+
+class IdentityResponseModel(BaseModel):
+    message: str
+    data: dict
+
+@router.get("/", response_model=IdentityResponseModel)
+async def get_identity(request: IdentityRequestModel):
+    return IdentityResponseModel(message="Identity data", data={"param1": request.param1, "param2": request.param2})

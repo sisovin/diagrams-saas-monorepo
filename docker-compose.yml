@@ -11,6 +11,8 @@ services:
       - ./apps/backend:/app
     environment:
       - ENV=development
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
 
   frontend:
     build:
@@ -22,3 +24,8 @@ services:
       - ./apps/frontend:/app
     environment:
       - ENV=development
+
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
